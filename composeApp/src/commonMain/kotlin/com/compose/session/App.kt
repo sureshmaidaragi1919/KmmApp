@@ -16,9 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.compose.session.screens.FirstScreen
 import com.compose.session.screens.SecondScreen
 import kotlinx.serialization.Serializable
+import kotlin.reflect.typeOf
 
 
 @Composable
@@ -75,7 +78,14 @@ fun App() {
                 FirstScreen(navController = navController)
             }
 
-            composable<ScreenName.SecondScreen> {
+            composable (
+                route = "secondScreen/{content}",
+                arguments = listOf(navArgument("content") {
+                    type = CustomNavType.ContentType
+                })
+            ) {
+                val arguments = it.toRoute<ScreenName.SecondScreen>()
+                println("Arguments: ${arguments.content}")
                 SecondScreen(navController = navController)
             }
 
@@ -93,5 +103,11 @@ sealed class ScreenName {
     data object FirstScreen : ScreenName()
 
     @Serializable
-    data object SecondScreen : ScreenName()
+    data class SecondScreen(val content: Content) : ScreenName()
 }
+
+@Serializable
+data class Content(
+    val name: String,
+    val price: Double
+)
