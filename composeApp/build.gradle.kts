@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinSerialization)
- }
+}
 
 kotlin {
     androidTarget {
@@ -16,7 +16,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -27,9 +27,9 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -46,7 +46,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.jetbrain.navigation)
             implementation(libs.kotlin.serialization)
-
         }
     }
 }
@@ -85,6 +84,10 @@ android {
     }
     dependencies {
         debugImplementation(compose.uiTooling)
+        implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
+        implementation (file ("libs/pitaraShared-dev-debug.aar"))
+        // You can also add a specific library by name:
+        implementation(group = "pitaraShared-dev-debug",name ="pitaraShared", ext = "aar")
     }
 }
 

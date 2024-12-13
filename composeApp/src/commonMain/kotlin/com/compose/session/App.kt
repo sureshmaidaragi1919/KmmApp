@@ -8,11 +8,13 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,7 +23,6 @@ import androidx.navigation.toRoute
 import com.compose.session.screens.FirstScreen
 import com.compose.session.screens.SecondScreen
 import kotlinx.serialization.Serializable
-import kotlin.reflect.typeOf
 
 
 @Composable
@@ -104,7 +105,42 @@ sealed class ScreenName {
 
     @Serializable
     data class SecondScreen(val content: Content) : ScreenName()
+
+    @Serializable
+    data object Tab1 : ScreenName()
+
+    @Serializable
+    data object Tab2 : ScreenName()
 }
+
+sealed class BottomTabItem(
+    val route: String,
+    val title: String,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector
+) {
+
+    data object Tab1 : BottomTabItem(
+        route = ScreenName.Tab1::class.qualifiedName ?: "",
+        title = "Tab1",
+        selectedIcon = Icons.Default.Call,
+        unselectedIcon = Icons.Default.Star
+    )
+
+    data object Tab2 : BottomTabItem(
+        route = ScreenName.Tab1::class.qualifiedName ?: "",
+        title = "Tab1",
+        selectedIcon = Icons.Default.Call,
+        unselectedIcon = Icons.Default.Star
+    )
+
+}
+
+val bottomNavItems: List<BottomTabItem> = listOf(
+    BottomTabItem.Tab1,
+    // BottomNavItem.Talk,
+    BottomTabItem.Tab2
+)
 
 @Serializable
 data class Content(
